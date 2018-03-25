@@ -1,0 +1,18 @@
+{
+  "name": "keylogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "author": "Surdoiu Tudor",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "iohook": "^0.1.13",
+    "ws": "^5.1.0"
+  }
+}
