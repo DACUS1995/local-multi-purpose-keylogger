@@ -1,9 +1,11 @@
+"use strict"
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const http = require("http");
 const url = require("url");
 const WebSocket = require("ws");
-const HandleSocketMessage = require("./HandleSocketMessage");
+const HandleSocketMessage = require("./HandleSocketMessage.js");
 
 
 function startServer(nPort)
@@ -17,7 +19,7 @@ function startServer(nPort)
 	const server = http.createServer(app);
 	const wss = new WebSocket.Server({ server });
 	
-	wss.on('connection', function connection(ws, req) {
+	wss.on('connection', function (ws, req) {
 		const objHandleSocketMessage = new HandleSocketMessage(ws);
 		const location = url.parse(req.url, true);
 		

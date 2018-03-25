@@ -1,4 +1,6 @@
-class HandleSocketMessage
+"use strict"
+
+class HandleClientSocketMessage
 {
     constructor(ws)
     {
@@ -7,12 +9,15 @@ class HandleSocketMessage
 
     handleMessage(strMessage)
     {
-        let objMessage = HandleSocketMessage.decodeMessage(strMessage);
+        let objMessage = HandleClientSocketMessage.decodeMessage(strMessage);
 
         switch(objMessage.title)
         {
             case "log":
                 console.log(objMessage.body);
+                break;
+            case "BufferFlush":
+                console.log(objMessage.body.buffer)
                 break;
             default:
                 console.log("Message not configured!");
@@ -26,4 +31,4 @@ class HandleSocketMessage
     }
 }
 
-module.export = HandleSocketMessage;
+module.exports = HandleClientSocketMessage;

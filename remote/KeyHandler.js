@@ -1,6 +1,9 @@
+"use strict"
+
 const Utils = require("./Utils");
 const ioHook = require("iohook");
-// const { server, wss } = require("./Server");
+const { server, wss } = require("./Server");
+const WebSocket = require("ws");
 
 class KeyHandler
 {
@@ -15,7 +18,7 @@ class KeyHandler
 		if(rawCode == dictRawCode["enter"])
 		{
 			let strBuffer = this._arrBuffer.join('').toLowerCase();
-			// this.sendBuffer();
+			this.sendBuffer(strBuffer);
 			this._arrBuffer = [];
 
 			console.log(strBuffer);
@@ -27,18 +30,18 @@ class KeyHandler
 
 	}
 
-	// sendBuffer(strBuffer)
-	// {
-	// 	wss.clients.forEach(function each(client) 
-	// 	{
-	// 		if (client.readyState === WebSocket.OPEN) 
-	// 		{
-	// 			client.send(Utils.makeMessage(
-	// 				"BufferFlush", strBuffer
-	// 			));
-	// 		}
-	// 	});
-	// }
+	sendBuffer(strBuffer)
+	{
+		wss.clients.forEach(function each(client) 
+		{
+			if (client.readyState === WebSocket.OPEN) 
+			{
+				client.send(Utils.makeMessage(
+					"BufferFlush", {buffer: strBuffer}
+				));
+			}
+		});
+	}
 
 	startListener()
 	{
