@@ -17,7 +17,10 @@ class HandleClientSocketMessage
                 console.log(objMessage.body);
                 break;
             case "BufferFlush":
-                console.log(objMessage.body.buffer)
+                console.log(objMessage.body.buffer);
+                break;
+            case "CommandOutput":
+                console.log(objMessage.body.output);
                 break;
             default:
                 console.log("Message not configured!");

@@ -2,41 +2,59 @@
 
 const WebSocket = require("ws");
 const HandleClientSocketMessage = require("./HandleClientSocketMessage");
+const HandleClientCommands = require("./HandleClientCommands");
 
 class Client
 {
     constructor()
     {
-        this._arrAddresses = Client.genAddresses();
+        this._arrAddresses = Client.generateAddresses();
+        this._bConnectSucces = false;
+        this._objHandleClientSocketMessage = null;
+        this._objHandleClientCommands = null;
     }
 
+    /**
+     *  Use this function to search for an existing server to connect
+     */
     sweep()
     {
         for(let i in this._arrAddresses)
         {
-            this.connect(this._arrAddresses[i])
+            if(this._bConnectSucces != false) //Check if connection already succeded
+            {
+                try
+                {
+                    this.connect(this._arrAddresses[i])
+                }
+                catch(error)
+                {
+                    // Probabily just failed connect atept because the addres was wrong
+                    console.log(`[Error: ${error.stack}]`);
+                }
+            }
         }
     }
 
-    connect(strAddres)
+    connect(strAddress)
     {
         console.log(`Trying to connect to ${strAddres}:666`);
 
         const ws = new WebSocket(`ws://${strAddres}:666`);
-        let bSucces = false;
-        let objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
- 
+        
         ws.on('open', function open() {
-            console.log(`Found it at addres: ${strAddres}`);
-            bSucces = true;
+            console.log(`Found it at addres: ${strAddress}`);
+            this._objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
+            this._objHandleClientCommands = new HandleClientCommands(ws);
+            this._bConnectSucces = true;
         });
  
         ws.on('message', function incoming(data) {
-            objHandleClientSocketMessage.handleMessage(data);
+            this._objHandleClientSocketMessage.handleMessage(data);
         });
     }
 
-    static genAddresses()
+    static generateAddresses()
     {
         let arrAddresses = [];
         arrAddresses.push("127.0.0.1");

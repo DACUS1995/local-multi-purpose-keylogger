@@ -14,8 +14,5 @@ else
 {
     console.log(":: Running sucker mode");    
     const { server, wss } = require("./remote/Server");
-    const objKeyHandler = require("./remote/KeyHandler");
-    
-    objKeyHandler.startListener();
 }
 

