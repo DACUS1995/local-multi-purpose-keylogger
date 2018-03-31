@@ -19,9 +19,10 @@ class Client
      */
     sweep()
     {
+        console.log(":: Client::Starting Sweeping");
         for(let i in this._arrAddresses)
         {
-            if(this._bConnectSucces != false) //Check if connection already succeded
+            if(this._bConnectSucces != true) //Check if connection already succeded
             {
                 try
                 {
@@ -38,14 +39,17 @@ class Client
 
     connect(strAddress)
     {
-        console.log(`Trying to connect to ${strAddres}:666`);
+        console.log(`--> Trying to connect to ${strAddress}:666`);
 
-        const ws = new WebSocket(`ws://${strAddres}:666`);
+        const ws = new WebSocket(`ws://${strAddress}:666`);
         
         ws.on('open', function open() {
-            console.log(`Found it at addres: ${strAddress}`);
+            console.log(`:: Found it at addres: ${strAddress}`);
             this._objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
             this._objHandleClientCommands = new HandleClientCommands(ws);
+
+            this._objHandleClientCommands.menu();
+
             this._bConnectSucces = true;
         });
  

