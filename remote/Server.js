@@ -20,7 +20,7 @@ function startServer(nPort)
 	const wss = new WebSocket.Server({ server });
 	
 	wss.on('connection', function (ws, req) {
-		const objHandleSocketMessage = new HandleSocketMessage(ws);
+		const objHandleSocketMessage = new HandleSocketMessage(ws, wss);
 		const location = url.parse(req.url, true);
 		
 		ws.on('message', function (strMessage) {

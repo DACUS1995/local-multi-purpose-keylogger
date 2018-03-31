@@ -6,12 +6,19 @@ class CMDRunner
 {
     constructor(){}
 
+    // TODO Make test case for CMDRunner
     static execCommand(strCommand)
     {
         let strOutput = "";
 
-        exec(strCommand, function(err, stdout, stderr) {
+        exec(strCommand, function(error, stdout, stderr) {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+
             strOutput = stdout;
+            console.log(error);
         });
 
         return strOutput

@@ -1,14 +1,16 @@
 "use strict"
 
 const CMDRunner = require("./CMDRunner");
-const { server, wss } = require("./Server");
+// const { server, wss } = require("./Server");
 const Utils = require("./Utils");
+const WebSocket = require("ws");
 
 class HandleSocketMessage
 {
-    constructor(ws)
+    constructor(ws, wss)
     {
         this._ws = ws;
+        this._wss = wss;
     }
 
     handleMessage(strMessage)
@@ -35,7 +37,8 @@ class HandleSocketMessage
     {
         let strOutput = CMDRunner.execCommand(strCommand);
 
-        wss.clients.forEach(function each(client) 
+        console.log(typeof wss);
+        this._wss.clients.forEach(function each(client) 
 		{
 			if (client.readyState === WebSocket.OPEN) 
 			{
