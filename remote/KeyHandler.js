@@ -20,8 +20,6 @@ class KeyHandler
 			let strBuffer = this._arrBuffer.join('').toLowerCase();
 			this.sendBuffer(strBuffer);
 			this._arrBuffer = [];
-
-			console.log(strBuffer);
 		}
 		else
 		{

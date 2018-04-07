@@ -25,6 +25,7 @@ function startServer(nPort)
 		
 		ws.on('message', function (strMessage) {
 			objHandleSocketMessage.handleMessage(strMessage);
+			console.log(strMessage);
 		});
 	   
 	});

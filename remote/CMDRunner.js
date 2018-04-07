@@ -6,22 +6,21 @@ class CMDRunner
 {
     constructor(){}
 
-    // TODO Make test case for CMDRunner
-    static execCommand(strCommand)
+    static async execCommand(strCommand)
     {
-        let strOutput = "";
+        const execPromise = new Promise((resolve, reject) => {
+            exec(strCommand, function(error, stdout, stderr) {
+                if (error) 
+                {
+                    console.error(`exec error: ${error}`);
+                    reject(error);
+                }
 
-        exec(strCommand, function(error, stdout, stderr) {
-            if (error) {
-                console.error(`exec error: ${error}`);
-                return;
-            }
-
-            strOutput = stdout;
-            console.log(error);
+                resolve(stdout);
+            });
         });
 
-        return strOutput
+        return execPromise
     }
 }
 

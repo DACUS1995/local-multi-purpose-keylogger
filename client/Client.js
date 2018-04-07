@@ -3,6 +3,7 @@
 const WebSocket = require("ws");
 const HandleClientSocketMessage = require("./HandleClientSocketMessage");
 const HandleClientCommands = require("./HandleClientCommands");
+const os = require("os");
 
 class Client
 {
@@ -56,12 +57,64 @@ class Client
         ws.on('message', function incoming(data) {
             this._objHandleClientSocketMessage.handleMessage(data);
         });
+
+        ws.on("error", (err) => {console.log(err);});
     }
 
+    /**
+     * To dev reasons first include the loopback address
+     * Due to the fact that this app is meant to be used in a small LAN
+     * there is no reason to search more than +/- 5 IP ranges of addresses
+     */
     static generateAddresses()
     {
         let arrAddresses = [];
         arrAddresses.push("127.0.0.1");
+
+        const objInterfaces = os.networkInterfaces();
+
+        arrAddresses = [
+            ...arrAddresses,
+            ...this.ethernetLANPlugin(objInterfaces)
+        ];
+
+        return arrAddresses;
+    }
+
+    static ethernetLANPlugin(objInterfaces)
+    {
+        const Ethernet = objInterfaces.Ethernet;
+        
+        for(let objIndex of Ethernet)
+        {
+            if(objIndex.family == "IPv4")
+            {
+                return this.rangeIPGen(objIndex.address, 10);
+            }
+        }
+    }
+
+    static rangeIPGen(foundAddress, nRange)
+    {
+        const arrAddresses = [];
+        const arrSplitAddress = foundAddress.split(".");
+        
+        let nLastComponent = parseInt(arrSplitAddress[3]);
+
+        for(let i=1; i<nRange; i++)
+        {
+            let current = nLastComponent + i;
+            arrSplitAddress[3] = current.toString();
+
+            arrAddresses.push(arrSplitAddress.join("."));
+
+            if(current != i && nLastComponent >= i)
+            {
+                current = nLastComponent - i;
+                arrSplitAddress[3] = current.toString();
+                arrAddresses.push(arrSplitAddress.join("."));                
+            }
+        }
 
         return arrAddresses;
     }

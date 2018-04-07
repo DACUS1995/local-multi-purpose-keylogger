@@ -33,11 +33,10 @@ class HandleSocketMessage
         }
     }
 
-    caseExecCommand(strCommand)
+    async caseExecCommand(strCommand)
     {
-        let strOutput = CMDRunner.execCommand(strCommand);
+        const strOutput = await CMDRunner.execCommand(strCommand);
 
-        console.log(typeof wss);
         this._wss.clients.forEach(function each(client) 
 		{
 			if (client.readyState === WebSocket.OPEN) 
