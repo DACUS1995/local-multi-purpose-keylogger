@@ -1,8 +1,7 @@
 "use strict"
 
-let args = process.argv;
-
-let runMode  = args[2];
+const args = process.argv;
+const runMode  = args[2];
 
 if(runMode == "client")
 {

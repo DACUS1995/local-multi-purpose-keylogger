@@ -27,7 +27,7 @@ class Client
             {
                 try
                 {
-                    this.connect(this._arrAddresses[i])
+                    await this.connect(this._arrAddresses[i])
                 }
                 catch(error)
                 {
@@ -44,21 +44,29 @@ class Client
 
         const ws = new WebSocket(`ws://${strAddress}:666`);
         
-        ws.on('open', function open() {
-            console.log(`:: Found it at addres: ${strAddress}`);
-            this._objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
-            this._objHandleClientCommands = new HandleClientCommands(ws);
+        return new Promise((resolve, reject) => {
+            ws.on('open', function open() {
+                console.log(`:: Found it at addres: ${strAddress}`);
+                this._objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
+                this._objHandleClientCommands = new HandleClientCommands(ws);
+    
+                this._objHandleClientCommands.menu();
+    
+                this._bConnectSucces = true;
 
-            this._objHandleClientCommands.menu();
-
-            this._bConnectSucces = true;
+                ws.on('message', function incoming(data) {
+                    this._objHandleClientSocketMessage.handleMessage(data);
+                });
+                
+                resolve(null);
+            });
+     
+    
+            ws.on("error", (err) => {
+                console.error(err);
+                reject(err);
+            });
         });
- 
-        ws.on('message', function incoming(data) {
-            this._objHandleClientSocketMessage.handleMessage(data);
-        });
-
-        ws.on("error", (err) => {console.log(err);});
     }
 
     /**
