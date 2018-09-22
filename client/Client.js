@@ -10,9 +10,11 @@ class Client
     constructor()
     {
         this._arrAddresses = Client.generateAddresses();
-        this._bConnectSucces = false;
+        this._bConnectSuccess = false;
         this._objHandleClientSocketMessage = null;
         this._objHandleClientCommands = null;
+
+        this._objPromisesToReject = {}; // TODO search the address in parallel and reject all other running promises
     }
 
     /**
@@ -23,7 +25,7 @@ class Client
         console.log(":: Client::Starting Sweeping");
         for(let i in this._arrAddresses)
         {
-            if(this._bConnectSucces != true) //Check if connection already succeded
+            if(this._bConnectSuccess != true) //Check if connection already succeded
             {
                 try
                 {
@@ -31,7 +33,7 @@ class Client
                 }
                 catch(error)
                 {
-                    // Probabily just failed connect atept because the address was wrong
+                    // Probabily just failed connect atempt because the address was wrong
                     console.log(`[Error: ${error.stack}]`);
                 }
             }
@@ -45,16 +47,16 @@ class Client
         const ws = new WebSocket(`ws://${strAddress}:666`);
         
         return new Promise((resolve, reject) => {
-            ws.on('open', function open() {
-                console.log(`:: Found it at addres: ${strAddress}`);
+            ws.on('open', () => {
+                console.log(`:: Found tracker at address: ${strAddress}`);
                 this._objHandleClientSocketMessage = new HandleClientSocketMessage(ws);
                 this._objHandleClientCommands = new HandleClientCommands(ws);
     
                 this._objHandleClientCommands.menu();
     
-                this._bConnectSucces = true;
+                this._bConnectSuccess = true;
 
-                ws.on('message', function incoming(data) {
+                ws.on('message', (data) => {
                     this._objHandleClientSocketMessage.handleMessage(data);
                 });
                 

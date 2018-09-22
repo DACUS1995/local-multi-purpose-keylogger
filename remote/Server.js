@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const http = require("http");
 const url = require("url");
 const WebSocket = require("ws");
-const HandleSocketMessage = require("./HandleSocketMessage.js");
+const HandleSocketMessage = require("./HandleSocketMessage");
 
 
 function startServer(nPort)
@@ -17,25 +17,25 @@ function startServer(nPort)
 	});
 	
 	const server = http.createServer(app);
-	const wss = new WebSocket.Server({ server });
+	const wsServer = new WebSocket.Server({ server });
 	
-	wss.on('connection', function (ws, req) {
-		const objHandleSocketMessage = new HandleSocketMessage(ws, wss);
+	wsServer.on("connection", function (ws, req) {
+		const objHandleSocketMessage = new HandleSocketMessage(ws, wsServer);
 		const location = url.parse(req.url, true);
 		
-		ws.on('message', function (strMessage) {
+		ws.on("message", function (strMessage) {
 			objHandleSocketMessage.handleMessage(strMessage);
 			console.log(strMessage);
 		});
 	   
 	});
 	
-	server.listen(nPort, function listening() {
-		console.log('Listening on %d', server.address().port);
+	server.listen(nPort, function() {
+		console.log(`Listening on ${server.address().port}`);
   	});
 
 	return {
-	  wss: wss,
+	  wss: wsServer,
 	  server: server
 	}
 }

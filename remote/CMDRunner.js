@@ -4,12 +4,15 @@ const exec = require("child_process").exec;
 
 class CMDRunner
 {
-    constructor(){}
+    constructor()
+    {}
 
     static async execCommand(strCommand)
     {
-        const execPromise = new Promise((resolve, reject) => {
-            exec(strCommand, function(error, stdout, stderr) {
+        const execPromise = new Promise((resolve, reject) => 
+        {
+            exec(strCommand, function(error, stdout, stderr) 
+            {
                 if (error) 
                 {
                     console.error(`exec error: ${error}`);
