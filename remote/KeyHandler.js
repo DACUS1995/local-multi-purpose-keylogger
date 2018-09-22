@@ -1,6 +1,6 @@
 "use strict"
 
-const Utils = require("./Utils");
+const Utils = require("../Utils");
 const ioHook = require("iohook");
 const { server, wss } = require("./Server");
 const WebSocket = require("ws");
@@ -23,7 +23,7 @@ class KeyHandler
 		}
 		else
 		{
-			this._arrBuffer.push(Utils.convertToChar(rawCode));
+			this._arrBuffer.push(Utils.convertKeyToChar(rawCode));
 		}
 
 	}

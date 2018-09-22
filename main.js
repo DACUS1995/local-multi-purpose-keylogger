@@ -50,14 +50,14 @@ class Main
 
     _startClientMode()
     {
-                    console.log(":: Running client mode");
+            console.log(":: Running client mode");
             const client = require("./client/Client.js");
-            client.sweep();
+            client.sweep().catch(error => console.error(error));
     }
 
     _startTrackerMode()
     {
-            console.log(":: RunnistrRunModeng tracker mode");    
+            console.log(":: Running in tracker mode.");    
             const { server, wss } = require("./remote/Server");
     }
 

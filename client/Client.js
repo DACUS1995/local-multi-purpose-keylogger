@@ -18,7 +18,7 @@ class Client
     /**
      *  Use this function to search for an existing server to connect
      */
-    sweep()
+    async sweep()
     {
         console.log(":: Client::Starting Sweeping");
         for(let i in this._arrAddresses)
@@ -31,7 +31,7 @@ class Client
                 }
                 catch(error)
                 {
-                    // Probabily just failed connect atept because the addres was wrong
+                    // Probabily just failed connect atept because the address was wrong
                     console.log(`[Error: ${error.stack}]`);
                 }
             }

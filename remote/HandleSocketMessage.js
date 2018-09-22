@@ -2,7 +2,7 @@
 
 const CMDRunner = require("./CMDRunner");
 // const { server, wss } = require("./Server");
-const Utils = require("./Utils");
+const Utils = require("../Utils");
 const WebSocket = require("ws");
 
 class HandleSocketMessage
