@@ -7,7 +7,8 @@
   "scripts": {
     "start": "npm run start-client",
     "start-client": "node main.js client",
-    "start-tracker": "node main.js tracker"
+    "start-tracker": "node main.js tracker",
+    "nexe-build": "node nexe_build.js"
   },
   "author": "Surdoiu Tudor",
   "license": "ISC",
@@ -21,5 +22,8 @@
     "assets": [
       "node_modules/iohook/**"
     ]
+  },
+  "devDependencies": {
+    "nexe": "^2.0.0-rc.34"
   }
 }
