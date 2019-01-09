@@ -6,8 +6,8 @@
   "bin": "main.js",
   "scripts": {
     "start": "npm run start-client",
-    "start-client": "node main.js client",
-    "start-tracker": "node main.js tracker",
+    "start-client": "node src/main.js client",
+    "start-tracker": "node src/main.js tracker",
     "nexe-build": "node nexe_build.js"
   },
   "author": "Surdoiu Tudor",
