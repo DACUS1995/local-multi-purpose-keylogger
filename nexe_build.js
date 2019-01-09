@@ -3,7 +3,7 @@
 const { compile } = require('nexe')
  
 compile({
-	input: "./main.js",
+	input: "./src/main.js",
 	build: true, //required to use patches
 	patches: [
 		async (compiler, next) => 
